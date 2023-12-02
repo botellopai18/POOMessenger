@@ -26,7 +26,7 @@ class Marco2 {
 class PanelConScroll {
     public static void main(String [] args) {
         JFrame marco = new JFrame("Ej JScrollPanel");
-        ImageIcon ii = new ImageIcon("dragon.jpeg");
+        ImageIcon ii = new ImageIcon("resources/dragon.jpeg");
         JLabel etiqueta = new JLabel(ii);
         JScrollPane scrollPane = new JScrollPane(etiqueta);
         marco.getContentPane().add(scrollPane);
@@ -40,7 +40,7 @@ class PanelConScroll {
 class PanelDivisor{
     public static void main(String [] args) {
         JFrame marco = new JFrame("Ej JSplitPanel");
-        ImageIcon ii = new ImageIcon("dragon.jpg");
+        ImageIcon ii = new ImageIcon("resources/dragon.jpeg");
         JScrollPane panelDeslizable = new JScrollPane(new JLabel(ii));
         JPanel panellDeEtiqueta = new JPanel();
         JLabel etiqueta = new JLabel("Papel Tapiz");
@@ -58,7 +58,7 @@ class PanelDivisor{
 
 class Icono extends JFrame {
     public Icono () {
-        ImageIcon icono = new ImageIcon("dragon.jpeg");
+        ImageIcon icono = new ImageIcon("resources/dragon.jpeg");
         this.setIconImage(icono.getImage());
         this.setSize(200,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
