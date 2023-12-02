@@ -30,6 +30,6 @@ javac -d bin src/nombrepaquete/nombreArchivo.java
 java -cp bin nombrepaquete.nombreClase
 
 ### Por ejemplo:
-javac -d bin src/ejemplos/interfaces/panel-con-scroll.java
-java -cp bin ejemplos.interfaces.PanelConScroll
+javac -d bin src/ejemplos/interfaces/panel-con-scroll.java  
+java -cp bin ejemplos.interfaces.PanelConScroll  
 ![Ejemplo](resources/como-compilar.png)
