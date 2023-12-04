@@ -1,4 +1,4 @@
-package menu;
+package vista.menu;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import format.AppFonts;
+import vista.format.AppFonts;
 
 public class Archivos extends JPanel implements ActionListener {
   private GridBagConstraints constraints;

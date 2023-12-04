@@ -1,10 +1,10 @@
-package menu;
+package vista.menu;
 
 import javax.swing.*;
 import java.awt.*;
-import menu.UsuariosConectados;
-import chat.Chat;
-import format.AppFonts;
+import vista.menu.UsuariosConectados;
+import vista.chat.Chat;
+import vista.format.AppFonts;
 
 public class Principal extends JPanel {
   private GridBagConstraints constraints;
