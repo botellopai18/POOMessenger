@@ -1,5 +1,4 @@
 package vista.menu;
-
 import java.io.File;
 import javax.swing.*;
 import java.awt.*;
