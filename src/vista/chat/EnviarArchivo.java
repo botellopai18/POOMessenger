@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.File;
 import javax.swing.*;
 import java.awt.*;
+import vista.chat.Chat;
 
 
 import java.awt.event.ActionEvent;
@@ -11,14 +12,16 @@ import java.awt.event.ActionListener;
 
 public class EnviarArchivo implements ActionListener {
   private JButton source;
+  private Chat chat;
 
-  public EnviarArchivo (JButton source) {
+  public EnviarArchivo (JButton source, Chat chat) {
     this.source = source;
+    this.chat = chat;
     source.addActionListener(this);
   }
 
   public void actionPerformed(ActionEvent e) {
-    new SeleccionarArchivo();
+    new SeleccionarArchivo(chat);
   }
 }
 
@@ -26,9 +29,11 @@ class SeleccionarArchivo extends JFrame implements ActionListener {
   private JTextField txt;
   private File file;
   private ArrayList<JCheckBox> checkboxes;
+  private Chat chat;
 
-  public SeleccionarArchivo() {
+  public SeleccionarArchivo(Chat chat) {
     super("Selecciona usuarios");
+    this.chat = chat;
     setLayout(new FlowLayout());
 
     txt = new JTextField(30);
@@ -75,25 +80,28 @@ class SeleccionarArchivo extends JFrame implements ActionListener {
   private void enviarArchivo() {
     if (file == null) return;
     
+    ArrayList<String> users = new ArrayList<String>();
     for (int i = 0; i < checkboxes.size(); i++) {
       JCheckBox curr = checkboxes.get(i);
 
       if (!curr.isSelected()) continue;
 
       String user = curr.getText();
-      // Aqui deberia ir la funcion para enviar el archivo al usuario
-
-      setVisible(false);
-      dispose();
+      users.add(user);
     }
-
+    
+    setVisible(false);
+    dispose();
+    chat.enviarArchivoControlador(file, users);
   }
 
   private void listarUsuarios() {
-    // Aqui los usuarios deberian sacarse del server
     checkboxes = new ArrayList<JCheckBox>();
-    for (int i = 1; i <= 10; i++) {
-      JCheckBox checkbox = new JCheckBox("usuario" + i);
+    for (int i = 0; i < chat.usuariosConectados.size(); i++) {
+      String username = chat.usuariosConectados.get(i);
+      if (username.equals(chat.usuarioAutenticado)) continue;
+
+      JCheckBox checkbox = new JCheckBox(username);
       add(checkbox);
       checkboxes.add(checkbox);
     }
