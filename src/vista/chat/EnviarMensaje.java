@@ -7,25 +7,22 @@ import java.awt.event.ActionListener;
 
 import vista.chat.Chat;
 
+// ESTA CLASE YA NO SE VA A UTILIZAR
 public class EnviarMensaje implements ActionListener {
   private Component source;
-  private JPanel parent;
   private JTextField textField;
-  private JScrollPane panel;
 
   private Chat chat;
 
-  public EnviarMensaje(JScrollPane panel, JTextField source, JPanel parent) {
-    this.panel = panel;
+  public EnviarMensaje(Chat chat, JTextField source) {
+    this.chat = chat;
     this.source = source;
-    this.parent = parent;
     source.addActionListener(this);
   }
 
-  public EnviarMensaje(JScrollPane panel, JButton source, JPanel parent, JTextField textField) {
-    this.panel = panel;
+  public EnviarMensaje(Chat chat, JButton source, JTextField textField) {
+    this.chat = chat;
     this.source = source;
-    this.parent = parent;
     this.textField = textField;
     source.addActionListener(this);
   }
@@ -44,26 +41,7 @@ public class EnviarMensaje implements ActionListener {
 
     message = message.strip();
     if (message.equals("")) return;
-
-    // Aqui iria la funcion para mandar el mensaje a traves del server
-
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.gridx = 0;
-    gbc.weightx = 0.8;
-    gbc.insets = new Insets(3, 5, 3, 5);
-    gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-    
-    JLabel label = Chat.crearLabelMensaje(message, SwingConstants.RIGHT, "Yo");
-    parent.add(label, gbc);
-    panel.revalidate();
-    panel.repaint();
-
-    Runnable scroll = new Runnable() {
-      public void run() {
-        JScrollBar vertical = panel.getVerticalScrollBar();
-        vertical.setValue(vertical.getMaximum());
-      }
-    };
+    chat.mensajeEnviado();
 
     SwingUtilities.invokeLater(scroll);
   }

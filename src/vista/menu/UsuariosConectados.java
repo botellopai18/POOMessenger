@@ -1,5 +1,6 @@
 package vista.menu;
 
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import vista.format.AppFonts;
@@ -8,7 +9,7 @@ public class UsuariosConectados extends JPanel {
   private GridBagConstraints constraints;
   public JScrollPane scrollPanel;
 
-  public UsuariosConectados() {
+  public UsuariosConectados(String usuarioAutenticado, ArrayList<String> usuariosConectados) {
     super(new GridBagLayout());
     constraints = new GridBagConstraints();
     constraints.gridx = 0;
@@ -17,13 +18,16 @@ public class UsuariosConectados extends JPanel {
     constraints.anchor = GridBagConstraints.PAGE_START;
     constraints.ipady = 5;
 
-    agregarUsuarios();
+    scrollPanel = new JScrollPane(this);
+    agregarUsuarios(usuarioAutenticado, usuariosConectados);
   }
 
-  private void agregarUsuarios() {
-    // Los usuarios aqui deberian sacarse del servidor
-    for (int i = 1; i <= 15; i++) {
-      JLabel user = new JLabel("user" + i);
+  public void agregarUsuarios(String usuarioAutenticado, ArrayList<String> usuarios) {
+    removeAll();
+    for (int i = 0; i < usuarios.size(); i++) {
+      String username = usuarios.get(i);
+      if (username.equals(usuarioAutenticado)) continue;
+      JLabel user = new JLabel(usuarios.get(i));
       user.setBorder(AppFonts.borderUsuarios);
       user.setFont(AppFonts.usuarios);
       user.setHorizontalAlignment(SwingConstants.CENTER);
@@ -31,7 +35,6 @@ public class UsuariosConectados extends JPanel {
       user.setBackground(AppFonts.secondaryColor);
       add(user, constraints);
     }
-
-    scrollPanel = new JScrollPane(this);
+    revalidate();
   }
 }
