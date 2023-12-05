@@ -1,5 +1,6 @@
 package chat;
 
+import java.util.Arrays;
 import javax.swing.*;
 import chat.*;
 import java.awt.*;
@@ -83,7 +84,8 @@ public class Chat {
 
     for (int i = 0; i < 15; i++) {
       int alignment = i % 2 == 0 ? SwingConstants.LEFT : SwingConstants.RIGHT;
-      JLabel label = crearLabelMensaje("mensaje " + i, alignment);
+      String from = i % 2 == 0 ? "user" + i : "Yo";
+      JLabel label = crearLabelMensaje("mensaje " + i, alignment, from);
 
       if (i % 2 != 0) gbc.anchor = GridBagConstraints.LINE_END;
       else gbc.anchor = GridBagConstraints.LINE_START;
@@ -92,24 +94,32 @@ public class Chat {
     }
   }
 
-  public void mensajeRecibido(String mensaje) {
+  public void mensajeRecibido(String mensaje, String user) {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.weightx = 0.8;
     gbc.insets = new Insets(3, 5, 3, 5);
     gbc.anchor = GridBagConstraints.LINE_START;
     
-    JLabel label = crearLabelMensaje(mensaje, SwingConstants.LEFT);
+    JLabel label = crearLabelMensaje(mensaje, SwingConstants.LEFT, user);
     contenedorMensajes.add(label, gbc);
     scrollPanel.revalidate();
     scrollPanel.repaint();
 
-    JScrollBar vertical = scrollPanel.getVerticalScrollBar();
-    vertical.setValue(vertical.getMaximum());
+    Runnable scroll = new Runnable() {
+      public void run() {
+        JScrollBar vertical = scrollPanel.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
+      }
+    };
   }
 
-  static public JLabel crearLabelMensaje(String mensaje, int alignment) {
-    JLabel label = new JLabel(mensaje, alignment);
+  static public JLabel crearLabelMensaje(String mensaje, int alignment, String user) {
+    String formateado = separarLineas(mensaje);
+    String styleAlign = alignment == SwingConstants.LEFT ? "left" : "right";
+    String texto = String.format("<html><body style='text-align: %s'><b>%s</b><br>%s</body></html>", styleAlign, user, formateado);
+    JLabel label = new JLabel("", alignment);
+    label.setText(texto);
     label.setFont(AppFonts.regular);
     label.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
     label.setOpaque(true);
@@ -118,4 +128,22 @@ public class Chat {
 
     return label;
   } 
+
+  static private String separarLineas(String mensaje) {
+    String[] temp = mensaje.split(" ");
+    String formateado = "";
+
+    while (true) {
+      if (temp.length <= 5) {
+        formateado += String.join(" ", temp);
+        break;
+
+      } else {
+        formateado += String.format("%s %s %s %s %s<br>", temp[0], temp[1], temp[2], temp[3], temp[4]);
+        temp = Arrays.copyOfRange(temp, 5, temp.length - 1);
+      }
+    }
+
+    return formateado;
+  }
 }

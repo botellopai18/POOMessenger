@@ -2,7 +2,6 @@ package chat;
 
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,12 +53,18 @@ public class EnviarMensaje implements ActionListener {
     gbc.insets = new Insets(3, 5, 3, 5);
     gbc.anchor = GridBagConstraints.FIRST_LINE_END;
     
-    JLabel label = Chat.crearLabelMensaje(message, SwingConstants.RIGHT);
+    JLabel label = Chat.crearLabelMensaje(message, SwingConstants.RIGHT, "Yo");
     parent.add(label, gbc);
     panel.revalidate();
     panel.repaint();
 
-    JScrollBar vertical = panel.getVerticalScrollBar();
-    vertical.setValue(vertical.getMaximum());
+    Runnable scroll = new Runnable() {
+      public void run() {
+        JScrollBar vertical = panel.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
+      }
+    };
+
+    SwingUtilities.invokeLater(scroll);
   }
 }
