@@ -1,11 +1,11 @@
-package chat;
+package vista.chat;
 
 import java.util.Arrays;
 import javax.swing.*;
-import chat.*;
+import vista.chat.*;
 import java.awt.*;
-import menu.Menu;
-import format.AppFonts;
+import vista.menu.Menu;
+import vista.format.AppFonts;
 
 public class Chat {
   public JPanel parent, contenedorMensajes;

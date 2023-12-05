@@ -1,11 +1,11 @@
-package chat;
+package vista.chat;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import chat.Chat;
+import vista.chat.Chat;
 
 public class EnviarMensaje implements ActionListener {
   private Component source;

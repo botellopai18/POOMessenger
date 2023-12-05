@@ -1,8 +1,8 @@
-package menu;
+package vista.menu;
 
 import javax.swing.*;
 import java.awt.*;
-import format.AppFonts;
+import vista.format.AppFonts;
 
 public class UsuariosConectados extends JPanel {
   private GridBagConstraints constraints;

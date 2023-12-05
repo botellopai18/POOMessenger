@@ -1,11 +1,11 @@
-package menu;
+package vista.menu;
 
 import java.io.File;
 import javax.swing.*;
 import java.awt.*;
-import chat.*;
-import menu.Principal;
-import menu.Archivos;
+import vista.chat.*;
+import vista.menu.Principal;
+import vista.menu.Archivos;
 
 public class Menu {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package format;
+package vista.format;
 
 import javax.swing.*;
 import java.awt.*;

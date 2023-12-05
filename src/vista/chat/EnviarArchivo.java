@@ -1,4 +1,4 @@
-package chat;
+package vista.chat;
 
 import java.util.ArrayList;
 import java.io.File;
