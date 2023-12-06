@@ -1,5 +1,4 @@
 package modelo;
-
 import java.io.File;
 import java.io.Serializable;
 
@@ -14,15 +13,10 @@ public class Usuario implements Serializable {
     private File directorio;
 
     public Usuario() {
+        directorio = null;
     }
 
-    public Usuario(String username, String password) {
-        this.usuario = username;
-        this.contraseña = password;
-    }
-
-    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip, int puerto,
-            File directorio) {
+    public Usuario(String nombre, String usuario, String contraseña, String ip, int puerto, String apellido, File directorio) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
@@ -32,14 +26,6 @@ public class Usuario implements Serializable {
         this.directorio = directorio;
     }
 
-    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip) {
-        this.nombre = nombre;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-        this.ip = ip;
-        this.apellido = apellido;
-    }
-
     public Usuario(String nombre, String apellido, String usuario, String contraseña) {
         this.nombre = nombre;
         this.usuario = usuario;
@@ -47,6 +33,7 @@ public class Usuario implements Serializable {
         this.apellido = apellido;
     }
 
+    // Agregar "void" a los métodos getter y setter
     public String getNombre() {
         return nombre;
     }
@@ -93,5 +80,32 @@ public class Usuario implements Serializable {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public File getDirectorio() {
+        return directorio;
+    }
+
+    public String getDirectorioPath() {
+        if (directorio == null) {
+            return null;
+        }
+        return directorio.getPath();
+    }
+
+    public void setDirectorio(File directorio) {
+        if(!directorio.exists() || !directorio.isDirectory()) {
+            directorio.mkdir();
+        }
+        this.directorio = directorio;
+    }
+
+    public void setDirectorioPath(String path) {
+        File directorio = new File(path);
+        if(!directorio.exists() || !directorio.isDirectory()) {
+            System.out.println("El directorio no existe o no es un directorio");
+            directorio.mkdir();
+        }
+        this.directorio = directorio;
     }
 }

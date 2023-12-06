@@ -1,8 +1,9 @@
-package modelo.modelo2;
+package modelo;
 
-import modelo.modelo2.*;
+import modelo.*;
 import java.io.*;
 import java.util.ArrayList;
+// clase para calar el modelo
 class Calar{
     public static void main(String[] args){
         Modelo m = new Modelo();

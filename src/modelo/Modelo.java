@@ -1,7 +1,7 @@
-package modelo.modelo2;
+package modelo;
 import java.io.*;
 import java.util.ArrayList;
-import modelo.modelo2.Usuario;
+import modelo.Usuario;
 public class Modelo {
     private File chat;
     private File usuarios;
@@ -48,6 +48,7 @@ public class Modelo {
             e.printStackTrace();
         }
     }
+    
     // ya
     public ArrayList<String> obtenerMensajes() {
         ArrayList<String> mensajes = new ArrayList<>();
