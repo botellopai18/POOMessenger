@@ -66,18 +66,60 @@ public class Cliente {
     }
     public void comunicar(){
         try{
-            while(true){
-                System.out.println("Escribir mensaje: ");
-                String mensaje = System.console().readLine();
-                salida.writeUTF(mensaje);
-                System.out.println("Mensaje enviado.");
-                if(mensaje.equals("salir")){
-                    break;
-                }
+            Boolean activo = true;
+            while(activo){
+                escuchar(); 
+                
+                // while (entrada.available() == 0){
+                //     System.out.println("Escribir mensaje: ");
+                //     if(System.console() != null){
+                //     String mensaje = System.console().readLine();
+                //     salida.writeUTF(mensaje);
+                //     System.out.println("Mensaje enviado.");
+                //     if(mensaje.equals("salir")){
+                //         activo = false;
+                //         break;
+                //     }
+                //     }
+
+                //     try{
+                //         Thread.sleep(1000);
+                //     } catch(Exception e){
+                //         System.out.println("Error en sleep.");
+                //         System.out.println(e.getMessage());
+                //     }
+                // }
+                // if(entrada.available() > 0){
+                //     String mensaje = entrada.readUTF();
+                //     System.out.println("El servidor dice: " + mensaje);
+                // }
             }
         } catch (Exception e) {
             System.out.println("No se pudo conectar al servidor.");
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void escuchar(){
+        try{
+            while(!hablar()){
+                if(entrada.available() != 0){
+                    String mensaje = entrada.readUTF();
+                    System.out.println("El servidor dice: " + mensaje);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No jalo escuchar hilo");
+            //System.out.println(e.getMessage());
+        }
+    }
+    private Boolean hablar(){
+        try{
+            return false;
+        } catch (Exception e) {
+            System.out.println("No jalo hablar hilo");
+            //System.out.println(e.getMessage());
+            return false;
         }
     }
     public void enviarArchivo(DataOutputStream flujoDatosSalida){

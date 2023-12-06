@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import controlador.conexion.Servidor;
-class Hilo extends Thread{
+class Hilo extends Thread {
     private ServerSocket servidor;
     private Socket cliente;
     private DataInputStream entrada;
@@ -22,7 +22,7 @@ class Hilo extends Thread{
     }
     public void run(){
         try{
-            System.out.println("Cliente " + Servidor.getClientes() + " conectado.");
+            System.out.println("Cliente " + Servidor.getNumClientes() + " conectado.");
             preparar();
             comunicar();
             terminar();
@@ -35,7 +35,7 @@ class Hilo extends Thread{
     }
     private void preparar(){
         try{
-            Servidor.setClientes(1);
+            Servidor.setNumClientes(1);
             OutputStream escribir = cliente.getOutputStream();
             salida = new DataOutputStream(escribir);
             entrada = new DataInputStream(cliente.getInputStream());
@@ -50,11 +50,14 @@ class Hilo extends Thread{
     private void comunicar(){
         try{
             while(true){
-                String mensaje = entrada.readUTF();
-                System.out.println("El cliente " + nombre + " dice: " + mensaje);
-                if(mensaje.equals("salir")){
-                    break;
-                }
+                // String mensaje = entrada.readUTF();
+                // // Mensaje a servidor que le pase a todos los clientes
+                // Servidor.alertarMensaje(nombre, mensaje);
+                // System.out.println("El cliente " + nombre + " dice: " + mensaje);
+                // if(mensaje.equals("salir")){
+                //     break;
+                // }
+                String mensaje 
             }
         }catch(Exception e){
             System.out.println("error en comunicar en hilo.");
@@ -65,7 +68,7 @@ class Hilo extends Thread{
     private void terminar(){
         try{
             System.out.println("Cliente " + nombre + " salio.");
-            Servidor.setClientes(-1);
+            Servidor.setNumClientes(-1);
             salida.close();
             entrada.close();
             cliente.close();  
@@ -73,4 +76,14 @@ class Hilo extends Thread{
             System.out.println("error en terminar en hilo.");
         }
     }
+    public DataOutputStream getSalida(){
+        return salida;
+    }
+    public DataInputStream getEntrada(){
+        return entrada;
+    }
+    public String getNombre(){
+        return nombre;
+    }
+
 }

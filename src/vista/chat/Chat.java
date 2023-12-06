@@ -1,5 +1,6 @@
 package vista.chat;
 
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.ArrayList;
 import javax.swing.*;
