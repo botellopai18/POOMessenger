@@ -7,6 +7,7 @@ import java.net.Socket;
 
 public class SocketServidor {
     static final int PUERTO = 5432;
+    
     public SocketServidor() {
         try {
             ServerSocket servidor = new ServerSocket(PUERTO);
@@ -22,7 +23,6 @@ public class SocketServidor {
                 flujoDatosSalida.close();
                 flujoDatosEntrada.close();
                 servicio.close();
-
             }
             System.out.println("Demasiados clientes por hoy.");
         } catch(Exception e) {
