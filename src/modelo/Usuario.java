@@ -1,4 +1,5 @@
 package modelo;
+
 import java.io.File;
 import java.io.Serializable;
 
@@ -16,7 +17,8 @@ public class Usuario implements Serializable {
         directorio = null;
     }
 
-    public Usuario(String nombre, String usuario, String contraseña, String ip, int puerto, String apellido, File directorio) {
+    public Usuario(String nombre, String usuario, String contraseña, String ip, int puerto, String apellido,
+            File directorio) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
@@ -31,6 +33,13 @@ public class Usuario implements Serializable {
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.apellido = apellido;
+    }
+
+    public Usuario(String usuario, String contraseña) {
+
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+
     }
 
     // Agregar "void" a los métodos getter y setter

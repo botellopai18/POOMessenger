@@ -17,7 +17,7 @@ import controlador.conexion.Hilo;
 public class Servidor  {
     private int PUERTO;
     private boolean esperando;
-    private static int numClientes;
+        private static int numClientes;
     private static ArrayList<Hilo> clientes = new ArrayList<Hilo>();
 
     

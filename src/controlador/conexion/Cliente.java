@@ -66,7 +66,7 @@ public class Cliente {
     }
     public void comunicar(){
         try{
-            Boolean activo = true;
+Boolean activo = true;
             while(activo){
                 escuchar(); 
                 
@@ -92,7 +92,7 @@ public class Cliente {
                 // if(entrada.available() > 0){
                 //     String mensaje = entrada.readUTF();
                 //     System.out.println("El servidor dice: " + mensaje);
-                // }
+                // }   
             }
         } catch (Exception e) {
             System.out.println("No se pudo conectar al servidor.");
