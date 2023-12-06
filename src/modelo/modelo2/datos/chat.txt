@@ -1,0 +1,16 @@
+botello--Hola
+cristian--Hola
+botello--¿Cómo estás?
+cristian--Bien, ¿y tú?
+botello--Hola
+cristian--Hola
+botello--¿Cómo estás?
+cristian--Bien, ¿y tú?
+botello--Hola
+cristian--Hola
+botello--¿Cómo estás?
+cristian--Bien, ¿y tú?
+botello--Hola
+cristian--Hola
+botello--¿Cómo estás?
+cristian--Bien, ¿y tú?
