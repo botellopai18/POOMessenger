@@ -1,8 +1,9 @@
 package modelo;
- 
+
 import java.io.File;
 import java.io.Serializable;
-public class Usuario implements Serializable{
+
+public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nombre;
     private String usuario;
@@ -12,10 +13,16 @@ public class Usuario implements Serializable{
     private String apellido;
     private File directorio;
 
-    public Usuario(){
+    public Usuario() {
     }
-    
-    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip, int puerto, File directorio){
+
+    public Usuario(String username, String password) {
+        this.usuario = username;
+        this.contraseña = password;
+    }
+
+    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip, int puerto,
+            File directorio) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
@@ -24,65 +31,67 @@ public class Usuario implements Serializable{
         this.apellido = apellido;
         this.directorio = directorio;
     }
-     public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip){
+
+    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.ip = ip;
         this.apellido = apellido;
     }
-    public Usuario(String nombre, String apellido, String usuario, String contraseña){
+
+    public Usuario(String nombre, String apellido, String usuario, String contraseña) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.apellido = apellido;
     }
-    public getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
-    public setNombre(String nombre){
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public getUsuario(){
+
+    public String getUsuario() {
         return usuario;
     }
-    public setUsuario(String usuario){
+
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-    public getContraseña(){
+
+    public String getContraseña() {
         return contraseña;
     }
-    public setContraseña(String contraseña){
+
+    public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    public getIp(){
+
+    public String getIp() {
         return ip;
     }
-    public setIp(String ip){
+
+    public void setIp(String ip) {
         this.ip = ip;
     }
-    public getPuerto(){
+
+    public int getPuerto() {
         return puerto;
     }
-    public setPuerto(int puerto){
+
+    public void setPuerto(int puerto) {
         this.puerto = puerto;
     }
-    public getApellido(){
+
+    public String getApellido() {
         return apellido;
     }
-    public setApellido(String apellido){
+
+    public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-    public getDirectorio(){
-        return directorio;
-    }
-    public getDirectorioPath(){
-        return directorio.getPath();
-    }
-    public setDirectorio(File directorio){
-        this.directorio = directorio;
-    }
-    public setDirectorioPath(String path){
-        this.directorio = new File(directorio);
     }
 }

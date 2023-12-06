@@ -1,42 +1,51 @@
-package controlador.conexion;
-
-import java.io.OutputStream; 
+//package controlador;
+import java.io.OutputStream;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-//importar getInputStream
-//importar getOutputStream
-
-import controlador.conexion.Hilo;
-public class Servidor  {
-    private int PUERTO;
-    private boolean esperando;
-    private static int clientes;
+public class Servidor {
+    static final int PUERTO = 5432;
+    private boolean esperando = true;
+    int clientes = 0;
     
     public Servidor() {
-        esperando = true;
-        PUERTO = 5432;
-        clientes = 0;
     }
     public void iniciarServidor(){
         try{
             ServerSocket servidor = new ServerSocket(PUERTO);
             System.out.println("Iniciando servidor con puerto " + PUERTO);
-
-            while(esperando){
+            while(true){
                 Socket cliente = servidor.accept();
-
-                Hilo hilo = new Hilo("Cliente" + clientes, servidor, cliente);
-                hilo.start();
+                clientes++;
+                OutputStream escribir = cliente.getOutputStream();
+                DataOutputStream flujoDatosSalida = new DataOutputStream(escribir);
+                DataInputStream flujoDatosEntrada = new DataInputStream(cliente.getInputStream());
+                String nombre = flujoDatosEntrada.readUTF();
+                flujoDatosSalida.writeUTF("Bienvenido " + nombre);
+                while(true){
+                    String opcion = flujoDatosEntrada.readUTF();
+                    if(opcion.equals("salir")){
+                        break;
+                    } else if(opcion.equals("mensaje")){
+                        String mensaje = flujoDatosEntrada.readUTF();
+                        System.out.println("El cliente " + nombre + " dice: " + mensaje);
+                    } else if(opcion.equals("archivo")){
+                        recibirArchivo(flujoDatosEntrada);
+                        System.out.println("Archivo recibido.");
+                    } else{
+                        System.out.println("Opcion no valida.");
+                    }
+                    
+                }
+                clientes--;
+                flujoDatosSalida.close();
+                flujoDatosEntrada.close();
+                escribir.close();
+                cliente.close();
             }
-
             System.out.println("Demasiados clientes por hoy.");
             servidor.close();
         }catch(Exception e){
@@ -77,12 +86,6 @@ public class Servidor  {
         //Se crea una instancia de la clase Servidor
         Servidor s = new Servidor();
         s.iniciarServidor();
-    }
-    public static synchronized void setClientes(int u){
-        clientes+=u;
-    }
-    public static int getClientes(){
-        return clientes;
     }
 
 }
