@@ -17,13 +17,14 @@ import controlador.conexion.Hilo;
 public class Servidor  {
     private int PUERTO;
     private boolean esperando;
-        private static int numClientes;
+    private static int numClientes;
     private static ArrayList<Hilo> clientes = new ArrayList<Hilo>();
+    public static ArrayList<String> usernames = new ArrayList<String>();
 
     
     public Servidor() {
         esperando = true;
-        PUERTO = 5432;
+        PUERTO = 5430;
         numClientes = 0;
     }
     public void iniciarServidor(){
@@ -38,16 +39,17 @@ public class Servidor  {
             }
             System.out.println("Demasiados clientes por hoy.");
             servidor.close();
-        }catch(Exception e){}
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         
     }
 
     public static void alertarMensaje(String user, String mensaje) {
-        System.out.println("Tam de clientes: " + clientes.size());
         for (int i = 0; i < clientes.size(); i++) {
             Hilo curr = clientes.get(i);
-            System.out.println("Curr es: " + curr.getNombre());
-            String msg = String.format("[mensaje] %s--%s", user, mensaje);
+            // System.out.println("Curr es: " + curr.getNombre());
+            String msg = String.format("[mensaje]sep%s--%s", user, mensaje);
             try{
                 curr.getSalida().writeUTF(msg);
             }catch(Exception e){
@@ -55,9 +57,36 @@ public class Servidor  {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
-            
-            // curr.salida.writeUTF("[disconected]-");
-            // curr.mensajeRecibido(user, mensaje)
+        }
+    }
+
+    public static void actualizarUsuarios() {
+        String concatenated = "";
+        for (int i = 0; i < usernames.size(); i++) {
+            String curr = usernames.get(i);
+            concatenated += String.format("DEL%s", curr);
+        }
+
+        for (int i = 0; i < clientes.size(); i++) {
+            Hilo curr = clientes.get(i);
+            try {
+                curr.getSalida().writeUTF(String.format("[desconectado]sep%s", concatenated));
+            } catch(Exception e) {
+                System.out.println("Error al desconectar usuario");
+            }
+        }
+    }
+
+    // TODO:
+    public static void usuarioDesconectado(String user) {
+        System.out.println("Desde el SERVIDOR: se desconecto " + user);
+        for (int i = 0; i < clientes.size(); i++) {
+            Hilo curr = clientes.get(i);
+            try {
+                curr.getSalida().writeUTF(String.format("[desconectado]sep%s", user));
+            } catch(Exception e) {
+                System.out.println("Error al desconectar usuario");
+            }
         }
     }
 

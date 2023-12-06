@@ -7,13 +7,15 @@ import java.awt.*;
 import vista.chat.*;
 import vista.menu.Principal;
 import vista.menu.Archivos;
+import controlador.conexion.Cliente;
 
 public class Menu {
     static public Principal principal;
     static public Archivos archivos;
-    // Provisional
-    static public String usuarioAutenticado = "Moncho";
+    static public String usuarioAutenticado;
     public static void main(String[] args) {
+        // TODO: pasarle al menu como argumento el usuario que se autentico
+        usuarioAutenticado = args[0];
         JFrame frame = new JFrame("Messenger POO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -35,16 +37,12 @@ public class Menu {
         // Pestaña chat
         // En este caso, el usuario Moncho es el usuario que se autenticó
         principal = new Principal(usuarioAutenticado, usuariosConectados, mensajes);
-        /*
-            Para cambiar los usuarios conectados, llamar el metodo:
-            principal.setUsuariosConectados(ArrayList<String> nuevo);
-        */ 
 
         tabbedPane.addTab("Mensajes", principal);
 
         // Pestaña archivos
         // El segundo argumento de Archivos es la eleccion actual de la carpeta del usuario autenticado, debería obtenerse de un archivo de texto en donde se guarden las elecciones de cada usuario, por defecto sería "..."
-        archivos = new Archivos(usuarioAutenticado, "...");
+        archivos = new Archivos(usuarioAutenticado, "...", principal.cliente);
         tabbedPane.addTab("Archivos", archivos);
 
         frame.add(tabbedPane);

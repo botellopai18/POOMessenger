@@ -36,5 +36,6 @@ public class UsuariosConectados extends JPanel {
       add(user, constraints);
     }
     revalidate();
+    repaint();
   }
 }

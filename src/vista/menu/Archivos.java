@@ -8,16 +8,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import controlador.conexion.Cliente;
 import vista.format.AppFonts;
 
 public class Archivos extends JPanel implements ActionListener {
   private GridBagConstraints constraints;
   private JLabel path;
   private String usuarioAutenticado;
+  public Cliente cliente;
 
-  public Archivos(String usuarioAutenticado, String eleccion) {
+  public Archivos(String usuarioAutenticado, String eleccion, Cliente cliente) {
     super(new GridBagLayout());
     this.usuarioAutenticado = usuarioAutenticado;
+    this.cliente = cliente;
     constraints = new GridBagConstraints();
     constraints.weightx = 1.0;
     constraints.gridx = 0;
@@ -73,15 +76,9 @@ public class Archivos extends JPanel implements ActionListener {
           path.setText("...");
       } else {
           path.setText(fileName.getAbsolutePath());
-          guardarEleccionCarpeta(fileName);
+          cliente.guardarEleccionCarpeta(fileName);
       }
     }
-  }
-
-  private void guardarEleccionCarpeta(File carpeta) {
-    // Guardar en el servidor la eleccion de carpeta que eligio el usuario
-    // Se pueden apoyar de la variable usuarioAutenticado de esta clase para comunicarse con el server, por ejemplo: controlador.guardarCarpeta(usuarioAutenticado, carpeta)
-    
   }
 
   private void abrirCarpeta() {
