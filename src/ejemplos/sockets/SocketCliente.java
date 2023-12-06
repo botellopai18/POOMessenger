@@ -1,6 +1,6 @@
 package ejemplos.sockets;
 import java.io.InputStream;
-import java.io.DataInputStream; 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 public class SocketCliente {
