@@ -1,8 +1,8 @@
 package modelo;
- 
 import java.io.File;
 import java.io.Serializable;
-public class Usuario implements Serializable{
+
+public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nombre;
     private String usuario;
@@ -12,10 +12,11 @@ public class Usuario implements Serializable{
     private String apellido;
     private File directorio;
 
-    public Usuario(){
+    public Usuario() {
+        directorio = null;
     }
-    
-    public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip, int puerto, File directorio){
+
+    public Usuario(String nombre, String usuario, String contraseña, String ip, int puerto, String apellido, File directorio) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
@@ -24,65 +25,87 @@ public class Usuario implements Serializable{
         this.apellido = apellido;
         this.directorio = directorio;
     }
-     public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip){
-        this.nombre = nombre;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-        this.ip = ip;
-        this.apellido = apellido;
-    }
-    public Usuario(String nombre, String apellido, String usuario, String contraseña){
+
+    public Usuario(String nombre, String apellido, String usuario, String contraseña) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.apellido = apellido;
     }
-    public getNombre(){
+
+    // Agregar "void" a los métodos getter y setter
+    public String getNombre() {
         return nombre;
     }
-    public setNombre(String nombre){
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public getUsuario(){
+
+    public String getUsuario() {
         return usuario;
     }
-    public setUsuario(String usuario){
+
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-    public getContraseña(){
+
+    public String getContraseña() {
         return contraseña;
     }
-    public setContraseña(String contraseña){
+
+    public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    public getIp(){
+
+    public String getIp() {
         return ip;
     }
-    public setIp(String ip){
+
+    public void setIp(String ip) {
         this.ip = ip;
     }
-    public getPuerto(){
+
+    public int getPuerto() {
         return puerto;
     }
-    public setPuerto(int puerto){
+
+    public void setPuerto(int puerto) {
         this.puerto = puerto;
     }
-    public getApellido(){
+
+    public String getApellido() {
         return apellido;
     }
-    public setApellido(String apellido){
+
+    public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    public getDirectorio(){
+
+    public File getDirectorio() {
         return directorio;
     }
-    public getDirectorioPath(){
+
+    public String getDirectorioPath() {
+        if (directorio == null) {
+            return null;
+        }
         return directorio.getPath();
     }
-    public setDirectorio(File directorio){
+
+    public void setDirectorio(File directorio) {
+        if(!directorio.exists() || !directorio.isDirectory()) {
+            directorio.mkdir();
+        }
         this.directorio = directorio;
     }
-    public setDirectorioPath(String path){
-        this.directorio = new File(directorio);
+
+    public void setDirectorioPath(String path) {
+        File directorio = new File(path);
+        if(!directorio.exists() || !directorio.isDirectory()) {
+            System.out.println("El directorio no existe o no es un directorio");
+            directorio.mkdir();
+        }
+        this.directorio = directorio;
     }
 }
