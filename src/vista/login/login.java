@@ -1,6 +1,7 @@
 package vista.login;
 
-import controlador.Controlador;
+import controlador.login.Controlador;
+import modelo.Modelo;
 import vista.registro.registro;
 
 import javax.swing.*;
@@ -18,10 +19,12 @@ public class login extends JFrame {
      */
 
     private Controlador controlador;
+    private Modelo modelo;
 
     public login() {
         setSize(300, 300);
         setTitle("Interfaz Login");
+        modelo = new modelo.Modelo();
         setLocationRelativeTo(null); // Establecemos la ventana en el centro de la pantalla
         mostrarComponentes();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,7 +45,7 @@ public class login extends JFrame {
         labelContrasenia.setBounds(10, 90, 80, 25); // Establecemos la posicion y el tamaño
         JTextField txtUsuario = new JTextField();
         txtUsuario.setBounds(100, 60, 100, 25);
-        JTextField txtContrasenia = new JTextField();
+        JTextField txtContrasenia = new JTextField(); // Oculta la contraseña
         txtContrasenia.setBounds(100, 90, 100, 25);
         panel.add(txtUsuario);
         panel.add(labelPOOMessenger);
@@ -70,7 +73,7 @@ public class login extends JFrame {
                 if (!txtUsuario.getText().isEmpty() && !txtContrasenia.getText().isEmpty()) {
                     String name = txtUsuario.getText();
                     String password = txtContrasenia.getText();
-                    if (controlador.autenticar(name, password)) {
+                    if (modelo.autenticarUsuario(name, password)) {
                         JOptionPane.showMessageDialog(null, "Ingreso exitoso");
                     } else {
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
@@ -101,10 +104,9 @@ public class login extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                registro frame2 = new registro();
+                registro frameRegistro = new registro();
                 dispose();
-                frame2.setSize(500, 400);
-                frame2.setVisible(true);
+                frameRegistro.setVisible(true);
             }
 
         };
