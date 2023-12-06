@@ -2,7 +2,7 @@ package modelo;
 import java.io.File;
 import java.io.Serializable;
 import modelo.Usuario;
-
+ 
 public class Modelo{
     private File chat;
     private File usuarios;
@@ -11,7 +11,7 @@ public class Modelo{
 
     public Modelo(){
         chat = new File("datos/chat.txt");
-        usuarios = new File("datos/usuarios.ser");
+        usuarios = new File("datos/usuarios.txt");
         conectados = new File("datos/conectados.txt");
     }
 
@@ -58,6 +58,7 @@ public class Modelo{
     public void desconectarUsuario(String usuario){
         // eliminar usuario del archivo conectados
         // eliminar la linea del archivo conectados que contenga el usuario
+
     }
 
     public ArrayList<String> obtenerUsuariosConectados(){
@@ -65,17 +66,10 @@ public class Modelo{
         // return ArrayList<String> con los usuarios conectados
     }
 
-    public ArrayList<Usuario> obtenerUsuariosConectados(){
-        //  obtener usuarios del archivo conectados
-        // return ArrayList<String> con los usuarios conectados
-        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-        //leer del serializable
-        usuarios.add(new Usuario("isaac", "botello", "botellopai", "1234", "127.0.0.1"));
-        return usuarios;
-    }
-
-    public void guardarArchivo(String usuario, File archivo){
+    public void guardarArchivo(ArratList<String> usuarios, File archivo){
         // guardar archivo en el directorio del usuario
+        
+
     }
 
 

@@ -2,7 +2,7 @@ package ejemplos.sockets;
 import java.io.OutputStream;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
-import java.net.ServerSocket;
+import java.net.ServerSocket; 
 import java.net.Socket;
 
 public class SocketServidor {

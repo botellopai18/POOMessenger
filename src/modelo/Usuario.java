@@ -1,5 +1,5 @@
 package modelo;
-
+ 
 import java.io.File;
 import java.io.Serializable;
 public class Usuario implements Serializable{
@@ -14,6 +14,7 @@ public class Usuario implements Serializable{
 
     public Usuario(){
     }
+    
     public Usuario(String nombre, String apellido, String usuario, String contraseña, String ip, int puerto, File directorio){
         this.nombre = nombre;
         this.usuario = usuario;
