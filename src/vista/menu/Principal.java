@@ -6,6 +6,7 @@ import java.awt.*;
 import vista.menu.UsuariosConectados;
 import vista.chat.Chat;
 import vista.format.AppFonts;
+import controlador.conexion.Cliente;
 
 public class Principal extends JPanel {
   private GridBagConstraints constraints;
@@ -13,12 +14,14 @@ public class Principal extends JPanel {
   public Chat chat;
   private String usuarioAutenticado;
   private ArrayList<String> usuariosConectados, mensajes;
+  public Cliente cliente;
 
   public Principal(String user, ArrayList<String> usuariosConectados, ArrayList<String> mensajes) {
     super(new GridBagLayout());
     this.usuarioAutenticado = user;
     this.usuariosConectados = usuariosConectados;
     this.mensajes = mensajes;
+    // this.cliente = cliente;
 
     constraints = new GridBagConstraints();
     constraints.fill = GridBagConstraints.BOTH;
@@ -51,7 +54,8 @@ public class Principal extends JPanel {
     add(usuarios.scrollPanel, constraints);
 
     constraints.weightx = 1.0;
-    chat = new Chat(usuarioAutenticado, usuariosConectados, mensajes);
+    chat = new Chat(usuarioAutenticado, usuariosConectados, mensajes, this);
+    cliente = new Cliente(this);
     add(chat.parent, constraints);
   }
 

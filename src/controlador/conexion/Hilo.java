@@ -41,6 +41,8 @@ class Hilo extends Thread {
             entrada = new DataInputStream(cliente.getInputStream());
             nombre = entrada.readUTF();
             salida.writeUTF("Bienvenido " + nombre);
+            Servidor.usernames.add(nombre);
+            Servidor.actualizarUsuarios();
         }catch(Exception e){
             System.out.println("error en preparar en hilo.");
             System.out.println(e.getMessage());
@@ -50,14 +52,9 @@ class Hilo extends Thread {
     private void comunicar(){
         try{
             while(true){
-                // String mensaje = entrada.readUTF();
-                // // Mensaje a servidor que le pase a todos los clientes
-                // Servidor.alertarMensaje(nombre, mensaje);
-                // System.out.println("El cliente " + nombre + " dice: " + mensaje);
-                // if(mensaje.equals("salir")){
-                //     break;
-                // }
-                String mensaje 
+                String mensaje = entrada.readUTF();
+                String[] datos = mensaje.split("--");
+                Servidor.alertarMensaje(datos[0], datos[1]);
             }
         }catch(Exception e){
             System.out.println("error en comunicar en hilo.");
@@ -69,6 +66,11 @@ class Hilo extends Thread {
         try{
             System.out.println("Cliente " + nombre + " salio.");
             Servidor.setNumClientes(-1);
+
+            // Desconectar usuario
+            Servidor.usernames.remove(nombre);
+            Servidor.actualizarUsuarios();
+            // Servidor.usuarioDesconectado(nombre);
             salida.close();
             entrada.close();
             cliente.close();  

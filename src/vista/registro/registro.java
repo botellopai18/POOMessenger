@@ -1,8 +1,9 @@
 package vista.registro;
 
-import controlador.Controlador;
+import controlador.login.Controlador;
 import modelo.*;
 import javax.swing.*;
+import vista.login.login;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,7 @@ public class registro extends JFrame {
         this.getContentPane().add(panel);// Agregamos el panel a la ventana
         panel.setBackground(Color.WHITE);// Establecemos el color del panel
         JLabel labelRegistro = new JLabel("Registro", SwingConstants.CENTER);
-        labelRegistro.setBounds(100, 0, 100, 25); // Establecemos la posicion y el tamaño
+        labelRegistro.setBounds(120, 0, 100, 25); // Establecemos la posicion y el tamaño
         JLabel labelNombre = new JLabel("Nombre:", SwingConstants.CENTER);
         labelNombre.setBounds(10, 60, 80, 25); // Establecemos la posicion y el tamaño
         JLabel labelApellido = new JLabel("Apellido:", SwingConstants.CENTER);
@@ -91,10 +92,14 @@ public class registro extends JFrame {
                     if (password.equals(confirmPassword)) {
                         // Contraseñas coinciden, procede con el registro
                         Usuario nuevoUsuario = new Usuario(name, surname, username, password);
-                        boolean registroExitoso = modelo1.agregarUsuario(nuevoUsuario);
+                        boolean registroExitoso = modelo1.registrarUsuario(nuevoUsuario);
 
                         if (registroExitoso) {
                             JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
+                            login frameLogin = new login();
+                            dispose();
+                            frameLogin.setSize(300, 300);
+                            frameLogin.setVisible(true);
 
                         } else {
                             JOptionPane.showMessageDialog(null, "El usuario ya se encuentra registrado");

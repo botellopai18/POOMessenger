@@ -1,7 +1,9 @@
 package modelo;
+
 import java.io.*;
 import java.util.ArrayList;
 import modelo.Usuario;
+
 public class Modelo {
     private File chat;
     private File usuarios;
@@ -12,6 +14,7 @@ public class Modelo {
         usuarios = new File("modelo/datos/usuarios.ser");
         conectados = new File("modelo/datos/conectados.txt");
     }
+
     // ya
     public Boolean registrarUsuario(Usuario usuario) {
         ArrayList<Usuario> listaUsuarios = obtenerListaUsuarios();
@@ -24,6 +27,7 @@ public class Modelo {
         guardarListaUsuarios(listaUsuarios);
         return true; // Registro exitoso
     }
+
     // ya
     public Usuario obtenerUsuario(String usuario) {
         ArrayList<Usuario> listaUsuarios = obtenerListaUsuarios();
@@ -34,21 +38,23 @@ public class Modelo {
         }
         return null; // Usuario no encontrado
     }
+
     // ya
     public Boolean autenticarUsuario(String usuario, String contraseña) {
         Usuario user = obtenerUsuario(usuario);
         return user != null && user.getContraseña().equals(contraseña);
     }
+
     // ya
     public void guardarMensaje(String mensaje) {
         try (FileWriter writer = new FileWriter(chat, true);
-             BufferedWriter bw = new BufferedWriter(writer)) {
+                BufferedWriter bw = new BufferedWriter(writer)) {
             bw.write(mensaje + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     // ya
     public ArrayList<String> obtenerMensajes() {
         ArrayList<String> mensajes = new ArrayList<>();
@@ -62,22 +68,25 @@ public class Modelo {
         }
         return mensajes;
     }
+
     // ya
     public void conectarUsuario(String usuario) {
         try (FileWriter writer = new FileWriter(conectados, true);
-             BufferedWriter bw = new BufferedWriter(writer)) {
+                BufferedWriter bw = new BufferedWriter(writer)) {
             bw.write(usuario + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-   // ya
+
+    // ya
     public void desconectarUsuario(String usuario) {
         ArrayList<String> usuariosConectados = obtenerUsuariosConectados();
         usuariosConectados.remove(usuario);
         guardarListaUsuariosConectados(usuariosConectados);
     }
-// ya
+
+    // ya
     public ArrayList<String> obtenerUsuariosConectados() {
         return obtenerListaUsuariosConectados();
     }
@@ -91,7 +100,7 @@ public class Modelo {
         File destino = new File(directorioUsuario, archivo.getName());
 
         try (FileInputStream fis = new FileInputStream(archivo);
-             FileOutputStream fos = new FileOutputStream(destino)) {
+                FileOutputStream fos = new FileOutputStream(destino)) {
             byte[] buffer = new byte[1024];
             int length;
             while ((length = fis.read(buffer)) > 0) {
@@ -101,15 +110,17 @@ public class Modelo {
             e.printStackTrace();
         }
     }
+
     // ya
     @SuppressWarnings("unchecked")
-    private ArrayList<Usuario> obtenerListaUsuarios() {
+    public ArrayList<Usuario> obtenerListaUsuarios() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(usuarios))) {
             return (ArrayList<Usuario>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             return new ArrayList<>();
         }
     }
+
     // ya
     private void guardarListaUsuarios(ArrayList<Usuario> listaUsuarios) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(usuarios))) {
@@ -118,6 +129,7 @@ public class Modelo {
             e.printStackTrace();
         }
     }
+
     // ya
     private ArrayList<String> obtenerListaUsuariosConectados() {
         ArrayList<String> usuariosConectados = new ArrayList<>();
@@ -131,6 +143,7 @@ public class Modelo {
         }
         return usuariosConectados;
     }
+
     // ya
     private void guardarListaUsuariosConectados(ArrayList<String> usuariosConectados) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(conectados))) {

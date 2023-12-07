@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import vista.menu.Menu;
+import vista.menu.Principal;
 import vista.format.AppFonts;
+import controlador.conexion.Cliente;
 
 public class Chat implements ActionListener {
   public JPanel parent, contenedorMensajes;
@@ -19,12 +21,16 @@ public class Chat implements ActionListener {
   public String usuarioAutenticado;
   private JTextField textField;
   public ArrayList<String> usuariosConectados;
+  // private Cliente cliente;
+  private Principal parentPrincipal;
 
-  public Chat(String user, ArrayList<String> usuariosConectados, ArrayList<String> mensajes) {
+  public Chat(String user, ArrayList<String> usuariosConectados, ArrayList<String> mensajes, Principal parent) {
     this.parent = new JPanel(new GridBagLayout());
     this.contenedorMensajes = new JPanel(new GridBagLayout());
     this.usuarioAutenticado = user;
     this.usuariosConectados = usuariosConectados;
+    // this.cliente = cliente;
+    this.parentPrincipal = parent;
     contenedorMensajes.setBackground(AppFonts.secondaryColor);
 
     restaurarMensajes(mensajes);
@@ -161,25 +167,10 @@ public class Chat implements ActionListener {
     message = message.strip();
     if (message.equals("")) return;
 
-    // mensaje recibido no debe de ser llamado directamente, solo es para ver que funcione 
-    mensajeRecibido(message, usuarioAutenticado);
-
-    // Lo que se debe de hacer es esto:
-    // controlador.mensajeEnviado(mensaje, usuario)
-    /*
-     * 
-     * Controlador recibe mensaje
-     * Modelo: Escribir mensaje en el archivo de texto
-     * Controlador: a cada chat de los usuarios activos va a invocar la function chat.mensajeRecibido(mensaje,    usuario)
-     */
+    parentPrincipal.cliente.setMsg(String.format("%s--%s", usuarioAutenticado, message));
   }
 
   public void enviarArchivoControlador(File archivo, ArrayList<String> userList) {
-    // TODO implementar funcion para mandar archivos por el servidor
-    // TENER EN CUENTA que pasa cuando se intenta mandar un archivo a un usuario que todavia no ha elegido carpeta en la pestaña Archivos
-    System.out.println("Enviando " + archivo.getAbsolutePath() + " a: ");
-    for (int i = 0; i < userList.size(); i++) {
-      System.out.println(userList.get(i));
-    }
+    parentPrincipal.cliente.enviarArchivoUsuarios(archivo, userList);
   }
 }

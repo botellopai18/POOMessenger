@@ -6,31 +6,74 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.io.IOException;
+import vista.chat.Chat;
+import vista.menu.Principal;
 
-public class Cliente {
+public class Cliente extends Thread {
     private String IP;
     private int PUERTO;
     private String nombre;
     private DataInputStream entrada;
     private DataOutputStream salida;
     private Socket servidor;
+    private String msg = null;
+    private Principal parentPrincipal;
     
-    public Cliente(){
-        nombre = "";
+    public Cliente(Principal parent){
+        super(parent.chat.usuarioAutenticado);
+        nombre = parent.chat.usuarioAutenticado;
         IP = "localhost";
-        PUERTO = 5432;
+        PUERTO = 5430;
+        this.parentPrincipal = parent;
+        start();
     };
     public Cliente(String ip, int port) {
         IP = ip;
         PUERTO = port;
     }
-    public void iniciar(){
+    public void run (){
         System.out.println("Iniciando...");
-        nombre = System.console().readLine("Nombre: ");
-        //pedirDatos();
         conectar(IP, PUERTO);
-        comunicar();
+
+        try {
+            Boolean activo = true;
+            while(activo){
+                if (entrada.available() > 0) {
+                    String incoming = entrada.readUTF();
+                    System.out.println("El servidor dice: " + incoming);
+                    String tipo = incoming.split("sep")[0];
+                    if (tipo.equals("[mensaje]")) {
+                        String datosUsuario = incoming.split("sep")[1];
+                        String[] mensajeSeparado = datosUsuario.split("--");
+                        parentPrincipal.chat.mensajeRecibido(mensajeSeparado[1], mensajeSeparado[0]);
+
+                    } else {
+                        String usuariosConectados = incoming.split("sep")[1];
+                        ArrayList<String> nuevosEnLinea = new ArrayList<String>();
+                        String[] arrUsuarios = usuariosConectados.split("DEL");
+
+                        for (int i = 0; i < arrUsuarios.length; i++) {
+                            if (arrUsuarios[i].strip().equals("")) continue;
+                            System.out.println(arrUsuarios[i]);
+                            nuevosEnLinea.add(arrUsuarios[i]);
+                        }
+                        parentPrincipal.setUsuariosConectados(nuevosEnLinea);
+                    }
+                }
+
+                if (msg != null) {
+                    salida.writeUTF(msg);
+                    System.out.println("Mensaje enviado");
+                    msg = null;
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar al servidor.");
+            System.out.println(e.getMessage());
+        }
         terminar();
     }
     private void pedirDatos(){
@@ -64,40 +107,23 @@ public class Cliente {
             System.out.println(e.getMessage());
         }
     }
-    public void comunicar(){
-        try{
-            Boolean activo = true;
-            while(activo){
-                escuchar(); 
-                
-                // while (entrada.available() == 0){
-                //     System.out.println("Escribir mensaje: ");
-                //     if(System.console() != null){
-                //     String mensaje = System.console().readLine();
-                //     salida.writeUTF(mensaje);
-                //     System.out.println("Mensaje enviado.");
-                //     if(mensaje.equals("salir")){
-                //         activo = false;
-                //         break;
-                //     }
-                //     }
 
-                //     try{
-                //         Thread.sleep(1000);
-                //     } catch(Exception e){
-                //         System.out.println("Error en sleep.");
-                //         System.out.println(e.getMessage());
-                //     }
-                // }
-                // if(entrada.available() > 0){
-                //     String mensaje = entrada.readUTF();
-                //     System.out.println("El servidor dice: " + mensaje);
-                // }
-            }
-        } catch (Exception e) {
-            System.out.println("No se pudo conectar al servidor.");
-            System.out.println(e.getMessage());
+    public void guardarEleccionCarpeta(File carpeta) {
+        // TODO: Esta funcion se llama cuando el usuario cambia de carpeta, acuerdense que cada instancia de Cliente ya tiene acceso al username en la variable nombre
+        System.out.printf("El usuario %s quiere cambiar a la carpeta %s%n", nombre, carpeta.getAbsolutePath());
+        // Aqui deberian mandar a llamar un metodo tipo Servidor.guardarCarpeta(nombre, carpeta)
+    }
+
+    public void enviarArchivoUsuarios(File archivo, ArrayList<String> usernames) {
+        // TODO: Podrian llamar a un metodo de la clase Servidor, el ArrayList usernames tiene el nombre de todos los usuarios a los que les tiene que llegar
+        System.out.println("Enviando " + archivo.getAbsolutePath() + " a: ");
+        for (int i = 0; i < usernames.size(); i++) {
+          System.out.println(usernames.get(i));
         }
+    }
+
+    public void setMsg(String nuevoMsg) {
+        msg = nuevoMsg;
     }
 
     private void escuchar(){
@@ -161,7 +187,7 @@ public class Cliente {
     
     public static void main(String [] arg) {
         //Se crea una instancia de la clase Servidor
-        Cliente c = new Cliente();
-        c.iniciar();
+        // Cliente c = new Cliente("usuario");
+        // c.start();
     }
 }
